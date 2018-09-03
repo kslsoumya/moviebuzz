@@ -1,0 +1,127 @@
+.card .box ul li {
+    list-style: none;
+    font-family: cursive;
+}
+
+.card .box ul {
+    padding : 0.5vw;
+    margin:0;
+}
+/* .card :hover {
+    transform: scale(1.03);
+} */
+
+
+/* .card {
+    border-top: 0.12rem solid;
+    border-right: 0.12rem solid;
+    border-bottom: 0.12rem solid;
+    border-left: 4px solid;
+} */
+
+.fa-info-circle {
+    color: #ff4081;
+    margin-top: 0.5vh;
+    cursor: pointer;
+}
+
+.fa-external-link {
+    color: blue;
+}
+.icons {
+    display: inline-block;
+    /* float: right; */
+}
+.my-pagination /deep/ .ngx-pagination .current {
+    background: #80008073;
+  }
+
+  .my-pagination {
+      text-align: center;
+  }
+
+  .sortIcon {
+      cursor: pointer;
+  }
+  .blue {
+      color: blue;
+  }
+  .green {
+      color: green;
+  }
+  .orange-border {
+      border-color: orange;
+  }
+  .pink-border {
+      border-color: pink;
+
+  }
+  .purple-border {
+      border-color: purple;
+  }
+
+  .badge-pill {
+      cursor: pointer;
+      background-color: #3e6babd1;
+      color: white;
+  }
+
+  .fa-home, .fa-book {
+      color: #ed3276;
+      cursor: pointer;
+  }
+  .card-title {
+      text-align: center;
+      margin:0;
+      padding-top: 2vh;
+      color:#ed3276;
+      font-size: 1.15rem;
+  }
+  .progress {
+      width: 10vw;
+      height: 0.5rem;
+  }
+
+  .seventy {
+    width :70%;
+    background-color: green;
+
+  }
+  .ninty {
+      width:90%;
+      background-color: green;
+  }
+  .sixty {
+      width:60%;
+      background-color: orange;
+  }
+  .eighty {
+    width :80%;
+    background-color: green;
+  }
+  .ten {
+      width:10%;
+      background-color: red;
+  }
+  .fifty {
+      width:50%;
+      background-color: orange;
+
+  }
+  .forty {
+      width: 40%;
+      background-color: orange;
+  }
+  .thirty {
+      width: 30%;
+      background-color: orange;
+  }
+  .hundred {
+      width: 100%;
+      background-color: green;
+  }
+  @media only screen and (max-width: 600px) {
+    .progress {
+        width: 30vw;
+    }
+}

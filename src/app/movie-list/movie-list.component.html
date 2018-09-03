@@ -1,0 +1,118 @@
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
+
+
+<div class="container" *ngIf="moviesList">
+  <div class="row">
+    <!-- <div class="col-xs-4  mx-auto">
+          <div class="input-group">
+            <input type="text" class="form-control design" [(ngModel)]="searchTerm" placeholder="Search a Movie" aria-label="Search a Movie">
+          </div>
+        </div> -->
+    <div class="col-md-1"></div>
+    <div class="col-md-4">
+      <form class="example-form">
+        <mat-form-field class="example-full-width">
+          <input type="text" placeholder="Search a movie" [(ngModel)]="searchTerm" aria-label="Number" matInput [formControl]="myControl"
+            [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let movie of filteredOptions|async" [value]="movie.movie_title">
+              {{movie.movie_title}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </form>
+    </div>
+    <div class="col-md-6">
+      <h5><strong>Sort By:</strong> &nbsp;&nbsp;
+        <input type="radio" name="sort" value="movie_title" [(ngModel)]="order"> Title
+        <input type="radio" name="sort" value="title_year" [(ngModel)]="order"> Year
+        <input type="radio" name="sort" value="content_rating" [(ngModel)]="order"> Popularity &nbsp;|
+        <span [hidden]="reverse" class="sortIcon blue" (click)="reverseSort()" title ="Descending">▼</span>
+        <span [hidden]="!reverse" class="sortIcon green" (click)="reverseSort()" title ="Ascending">▲</span></h5>
+      <!-- &nbsp;&nbsp; Title &nbsp;&nbsp; Year<span [hidden]="reverse">▼</span>
+              <span [hidden]="!reverse">▲</span> -->
+    </div>
+    <div class="col-md-1">
+      <i class="fa fa-home fa-lg" (click)="reachHome()"  title ="Home" aria-hidden="true"></i>
+      &nbsp;&nbsp;
+     <a href="http://moviebuzz.readme.themeanstackpro.com">
+       <i class="fa fa-book fa-lg" title ="Readme" aria-hidden="true"></i></a>
+    </div>
+  </div>
+  <br/>
+  <div class="row">
+    <div class="col-md-4" *ngIf="searchTerm &&(moviesList|searchFilter : searchTerm).length===0">
+      <h3>Sorry! No Results Found</h3>
+    </div>
+    <div class="col-md-4" *ngFor="let movie of moviesList|searchFilter : searchTerm|orderBy : order:reverse |paginate: { itemsPerPage: 24, currentPage: p }">
+      <div class="card shadow p-3 mb-5 bg-white rounded">
+        <div class="card-title"><strong>{{movie.movie_title.split(':')[0]}}</strong></div>
+        <hr>
+        <div class="box">
+          <ul>
+            <!-- <li><strong class="heading">Title:</strong>&nbsp;{{movie.movie_title.split(':')[0]}}</li> -->
+            <li><strong class="heading">Director: </strong>&nbsp;{{movie.director_name|NA:movie.director_name}}</li>
+            <li><strong class="heading">Actors:</strong>&nbsp; {{movie.actor_1_name}},&nbsp;{{movie.actor_2_name.substring(0,6)}}</li>
+            <li><strong class="heading">Language:</strong>&nbsp;
+              <span class="badge badge-pill" (click)="languageFilter(movie.language)">
+                {{movie.language|NA:movie.language}}</span></li>
+            <li><strong class="heading">Country:</strong>&nbsp;
+              <span class="badge badge-pill" (click)="countryFilter(movie.country)">
+                {{movie.country|NA:movie.country}}</span></li>
+            <li><strong class="heading">Year: </strong>&nbsp;{{movie.title_year|NA:movie.title_year}}</li>
+            <li><strong class="heading">Budget: </strong>&nbsp;{{movie.budget|NA:movie.budget}}</li>
+            <span class="progress mx-auto">
+              <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" title ="Popularity"
+              [ngClass] = "{'seventy':movie.content_rating==='R',
+              'hundred':movie.content_rating==='G','eighty':movie.content_rating==='PG-13',
+              'ninty':movie.content_rating==='PG','forty':movie.content_rating==='TV-MA',
+            'thirty':movie.content_rating==='TV-PG','fifty':movie.content_rating==='TV-G',
+            'sixty':movie.content_rating==='TV-14','ten':movie.content_rating===''}"></div>
+
+            </span>
+            <span class="d-flex flex-row-reverse">
+              <a href={{movie.movie_imdb_link}}><i class="fa fa-external-link" aria-hidden="true" title ="Imdb"></i></a>
+              &nbsp;&nbsp;
+
+              <i class="fa fa-info-circle" aria-hidden="true" (click)="modalClick(movie)"  title ="Info" data-toggle="modal" data-target="#infoModal"></i>
+            </span>
+          </ul>
+          <div class="modal fade" *ngIf="modalMovie!==undefined" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title mx-auto" id="infoModalLabel">{{modalMovie.movie_title}}</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <li class="list-group-item list-group-item-primary"><strong>Genres:</strong> {{modalMovie.genres}}</li>
+                  <li class="list-group-item list-group-item-secondary"><strong>Plot KeyWords:</strong> {{modalMovie.plot_keywords}}
+                    </li>
+                  <li class="list-group-item list-group-item-warning"><strong>Actors:</strong> {{modalMovie.actor_1_name}},{{modalMovie.actor_2_name}}
+                    </li>
+
+                  <li class="list-group-item list-group-item-success"><strong> Rating :</strong>&nbsp;&nbsp;
+                    <span class="badge badge-light">{{modalMovie.content_rating}}</span>
+                  </li>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <br/>
+    </div>
+  </div>
+</div>
+
+<pagination-controls class="my-pagination mx-auto" (pageChange)="p = $event"></pagination-controls>
